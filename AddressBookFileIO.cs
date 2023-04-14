@@ -9,60 +9,44 @@ namespace AddressBook_FileIO
 {
     public class AddressBookFileIO
     {
-        public static void WriteToFile(string fileName, List<Person> people)
+
+        private List<Person> addressBook = new List<Person>();
+
+        public void WriteToFile()
         {
-            try
+            string filePath = @"C:\\Users\\91997\\source\\repos\\AddressBook_FileIO\\FileIO.txt";
+
+            using (StreamWriter writer = File.AppendText(filePath))
             {
-                using (StreamWriter sw = new StreamWriter(fileName))
+                foreach (var person in addressBook)
                 {
-                    foreach (Person p in people)
-                    {
-                        sw.WriteLine($"{p.FirstName},{p.LastName},{p.Address},{p.City},{p.State},{p.ZipCode},{p.PhoneNumber},{p.Email}");
-                    }
+                    writer.WriteLine($"{person.FirstName},{person.LastName},{person.Address},{person.City},{person.State},{person.ZipCode},{person.PhoneNumber},{person.Email}");
                 }
-                Console.WriteLine($"Address book has been written to file '{fileName}'");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while writing address book to file '{fileName}': {ex.Message}");
+                Console.WriteLine("Address book written to file successfully.");
             }
         }
 
-        public static List<Person> ReadFromFile(string fileName)
+        public void ReadFromFile()
         {
-            List<Person> people = new List<Person>();
+            string filePath = @"C:\\Users\\91997\\source\\repos\\AddressBook_FileIO\\FileIO.txt";
+
             try
             {
-                using (StreamReader sr = new StreamReader(fileName))
+                using (StreamReader sr = new StreamReader(filePath))
                 {
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        string[] fields = line.Split(',');
-                        if (fields.Length == 8)
-                        {
-                            Person p = new Person()
-                            {
-                                FirstName = fields[0],
-                                LastName = fields[1],
-                                Address = fields[2],
-                                City = fields[3],
-                                State = fields[4],
-                                ZipCode = fields[5],
-                                PhoneNumber = fields[6],
-                                Email = fields[7]
-                            };
-                            people.Add(p);
-                        }
+                        Console.WriteLine(line);
                     }
                 }
-                Console.WriteLine($"Address book has been read from file '{fileName}'");
             }
-            catch (Exception ex)
+            catch (IOException e)
             {
-                Console.WriteLine($"Error while reading address book from file '{fileName}': {ex.Message}");
+                Console.WriteLine("An error occurred while reading the file:");
+                Console.WriteLine(e.Message);
             }
-            return people;
+
         }
     }
 }

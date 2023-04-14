@@ -60,20 +60,6 @@ namespace AddressBook_FileIO
             }
         }
 
-        private List<Person> addressBook = new List<Person>();
-
-        public void WriteToFile()
-        {
-            string filePath = @"C:\\Users\\91997\\source\\repos\\AddressBook_FileIO\\FileIO.txt";
-
-            using (StreamWriter writer = File.AppendText(filePath))
-            {
-                foreach (var person in addressBook)
-                {
-                    writer.WriteLine($"{person.FirstName},{person.LastName},{person.Address},{person.City},{person.State},{person.ZipCode},{person.PhoneNumber},{person.Email}");
-                }
-                Console.WriteLine("Address book written to file successfully.");
-            }
-        }
+       
     }
 }
